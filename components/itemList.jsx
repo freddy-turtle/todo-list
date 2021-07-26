@@ -1,9 +1,15 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
-const Delete = () => (
+const Delete = ({ onClick }) => (
   <button
     type="button"
     className="flex justify-center items-center focus:ring-gray-400 focus:ring-offset-gray-200 text-white transition ease-in duration-200 text-center text-base font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2  w-6 h-6 rounded-xl "
+    onClick={() =>
+      setTimeout(() => {
+        onClick();
+        document.activeElement.blur();
+      }, 300)
+    }
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -24,10 +30,73 @@ const Delete = () => (
   </button>
 );
 
+const Add = ({ onClick }) => (
+  <button
+    type="button"
+    className="flex justify-center items-center focus:ring-gray-400 focus:ring-offset-gray-200 text-white transition ease-in duration-200 text-center text-base font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2  w-6 h-6 rounded-xl bg-yellow-400 ml-1"
+    onClick={() =>
+      setTimeout(() => {
+        onClick();
+        document.activeElement.blur();
+      }, 300)
+    }
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="icon icon-tabler icon-tabler-plus"
+      width="32"
+      height="32"
+      viewBox="0 0 24 24"
+      strokeWidth="1.5"
+      stroke="#ffffff"
+      fill="none"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <line x1="12" y1="5" x2="12" y2="19" />
+      <line x1="5" y1="12" x2="19" y2="12" />
+    </svg>
+  </button>
+);
+
+const Input = ({addReminder}) => {
+  const myInput = useRef()
+  function handleSubmit(event) {
+    addReminder(myInput.current.value)
+    event.preventDefault()
+  }
+  return (
+  <form className="flex flex-row w-full justify-center gap-x-1" onSubmit={handleSubmit}>
+      <input
+        ref={myInput}
+        type="text"
+        id="rounded-email"
+        className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-1 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+        placeholder="Your reminder"
+      />
+      <button className="px-2 py-1 text-base font-semibold text-white bg-purple-600 rounded-lg shadow-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-purple-200" type="submit">
+            Add
+      </button>
+  </form>
+);
+}
+
 const ItemList = () => {
   const [items, setItems] = useState(["Courses", "Ménage", "Cuisine"]);
+  const [inputOpen, setInputOpen] = useState(false);
+  function deleteItem(i) {
+    const newItems = [...items];
+    newItems.splice(i, 1);
+    setItems(newItems);
+  }
+  function addItem(item) {
+    const newItems = [...items];
+    newItems.push(item);
+    setItems(newItems);
+  }
   return (
-    <div className="flex flex-col gap-y-2 w-2/3 sm:w-1/2 max-w-sm h-full rounded-lg overflow-scroll p-2 shadow-md bg-gray-100">
+    <div className="flex flex-col flex-shrink gap-y-2 w-2/3 sm:w-1/2 max-w-sm rounded-lg p-2 shadow-md bg-gray-100 ">
       {items.map((item, i) => (
         <div
           key={i}
@@ -41,9 +110,12 @@ const ItemList = () => {
             />
             <span className="font-light">{item}</span>
           </label>
-          <Delete />
+          <Delete onClick={() => deleteItem(i)} />
         </div>
       ))}
+      {inputOpen ? 
+        <Input addReminder={(reminder) => {setInputOpen(false); addItem(reminder)}} /> : 
+        <Add onClick={() => setInputOpen(true)} />}
     </div>
   );
 };
