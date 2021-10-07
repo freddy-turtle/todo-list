@@ -83,7 +83,11 @@ const Input = ({addReminder}) => {
 }
 
 const ItemList = () => {
-  const [items, setItems] = useState(["Courses", "Ménage", "Cuisine"]);
+  const [items, setItems] = useState([
+    "Go to the Swimming Pool 🏊", 
+    "Watch a movie 🎬", 
+    "Check your agenda 📅"
+  ]);
   const [inputOpen, setInputOpen] = useState(false);
   function deleteItem(i) {
     const newItems = [...items];
