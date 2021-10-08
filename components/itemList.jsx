@@ -128,22 +128,22 @@ const ItemList = () => {
     setItems(newItems);
   }
   return (
-    <div className="flex flex-col flex-shrink gap-y-2 w-2/3 sm:w-1/2 max-w-sm rounded-lg p-2 shadow-md bg-gray-100 ">
+    <div className="flex flex-col gap-y-2 w-full sm:w-2/3 md:w-1/2 max-w-sm rounded-lg p-2 shadow-md bg-gray-100 text-left">
       {items.map((item, i) => (
         i == itemToEdit ?
         <Input addReminder={(reminder) => {setItemToEdit(null); editItem(i, reminder)}} defaultAction="Edit" initialValue={item} />
         :
         <div
           key={i}
-          className="border bg-gray-200 rounded flex flex-row items-center p-1 justify-between"
+          className="border bg-gray-200 rounded flex flex-row items-center p-1 justify-between "
         >
-          <label className="flex items-center space-x-3">
+          <label className="flex items-center justify-start space-x-3 flex-auto overflow-auto">
             <input
               type="checkbox"
               name="checked-demo"
-              className="form-tick appearance-none bg-white bg-check h-6 w-6 border border-gray-300 rounded-md checked:bg-blue-500 checked:border-transparent focus:outline-none"
+              className="form-tick appearance-none flex-initial bg-white bg-check h-6 w-6 min-w-6 border border-gray-300 rounded-md checked:bg-blue-500 checked:border-transparent focus:outline-none"
             />
-            <span className="font-light">{item}</span>
+            <span className="font-light truncate max-h-16">{item}</span>
           </label>
           <span className="flex flex-row">
             <Edit onClick={() => setItemToEdit(i)} />
