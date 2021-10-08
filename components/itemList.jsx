@@ -141,7 +141,7 @@ const ItemList = () => {
             <input
               type="checkbox"
               name="checked-demo"
-              className="form-tick appearance-none flex-initial bg-white bg-check h-6 w-6 min-w-6 border border-gray-300 rounded-md checked:bg-blue-500 checked:border-transparent focus:outline-none"
+              className="form-tick appearance-none flex-initial bg-white bg-check h-6 w-24px min-w-6 border border-gray-300 rounded-md checked:bg-blue-500 checked:border-transparent focus:outline-none"
             />
             <span className="font-light truncate max-h-16">{item}</span>
           </label>
